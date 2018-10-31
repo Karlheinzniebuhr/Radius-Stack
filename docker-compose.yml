@@ -1,0 +1,60 @@
+version: '3.7'
+
+services:
+  mysql:
+    build:
+      context: ./MySql
+      dockerfile: Dockerfile
+    restart: on-failure
+    networks:
+      - radius_network
+    ports:
+      - "3307:3306"
+    volumes:
+      - radius_data:/docker-entrypoint-initdb.d/
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysqladmin
+      - MYSQL_DATABASE=radius
+      - MYSQL_USER=radius
+      - MYSQL_PASSWORD=radmin
+    #command: bash -c './docker-entrypoint-initdb.d/startup_script.sh'
+    #command: bash -c 'mysql -hmysql -p3307 -uroot -pmysqladmin < docker-entrypoint-initdb.d/dump.sql/schema.sql'
+
+  radius:
+    build:
+      context: ./Freeradius
+      dockerfile: Dockerfile
+    ports:
+      - "1812-1813:1812-1813/udp"
+    networks:
+      - radius_network
+    volumes:
+      - radius_data:/sqlscripts
+    depends_on:
+      - mysql
+    environment:
+        DB_HOST: mysql
+    links:
+      - mysql
+
+  admin:
+    build:
+      context: ./SimpleAdmin
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - radius_network
+    depends_on:
+      - mysql
+      - radius
+    links:
+     - mysql
+    environment:
+        DB_HOST: mysql
+
+networks:
+  radius_network:
+
+volumes:
+  radius_data:
