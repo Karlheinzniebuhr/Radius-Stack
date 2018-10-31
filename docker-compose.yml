@@ -17,13 +17,12 @@ services:
       - MYSQL_DATABASE=radius
       - MYSQL_USER=radius
       - MYSQL_PASSWORD=radmin
-    #command: bash -c './docker-entrypoint-initdb.d/startup_script.sh'
-    #command: bash -c 'mysql -hmysql -p3307 -uroot -pmysqladmin < docker-entrypoint-initdb.d/dump.sql/schema.sql'
 
   radius:
     build:
       context: ./Freeradius
       dockerfile: Dockerfile
+    restart: on-failure:3
     ports:
       - "1812-1813:1812-1813/udp"
     networks:
@@ -41,13 +40,13 @@ services:
     build:
       context: ./SimpleAdmin
       dockerfile: Dockerfile
+    restart: on-failure:50
     ports:
       - "5000:5000"
     networks:
       - radius_network
     depends_on:
       - mysql
-      - radius
     links:
      - mysql
     environment:

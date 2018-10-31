@@ -1,4 +1,8 @@
 FROM freeradius/freeradius-server:latest
+
+## The maintainer name and email
+MAINTAINER Karl Niebuhr <karlbooklover@gmail.com>
+
 COPY raddb/ /etc/raddb/
 COPY raddb/users /etc/freeradius/mods-config/files/authorize
 RUN mkdir sqlscripts
