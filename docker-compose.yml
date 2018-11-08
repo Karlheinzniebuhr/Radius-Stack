@@ -27,6 +27,15 @@ services:
       - "1812-1813:1812-1813/udp"
     networks:
       - radius_network
+    environment:
+      - DB_NAME=radius
+      - DB_HOST=mysql
+      - DB_USER=radius
+      - DB_PASS=radmin
+      - DB_PORT=3306
+      - RADIUS_KEY=radclient
+      #- RAD_CLIENTS=10.0.0.0/22
+      - RAD_DEBUG=yes
     volumes:
       - radius_data:/sqlscripts
     depends_on:

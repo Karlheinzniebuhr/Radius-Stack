@@ -13,5 +13,3 @@ ENV MYSQL_PASSWORD=radmin
 # Add the content of the sql-scripts/ directory to your image
 # All scripts in docker-entrypoint-initdb.d/ are automatically
 # executed during container startup
-# COPY startup_script.sh /docker-entrypoint-initdb.d/
-# COPY test.sql /docker-entrypoint-initdb.d/
