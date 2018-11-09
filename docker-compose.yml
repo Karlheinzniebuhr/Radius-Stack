@@ -22,7 +22,7 @@ services:
     build:
       context: ./Freeradius
       dockerfile: Dockerfile
-    restart: on-failure:3
+    restart: on-failure
     ports:
       - "1812-1813:1812-1813/udp"
     networks:

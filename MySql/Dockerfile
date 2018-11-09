@@ -1,5 +1,5 @@
 # Derived from official mysql image (our base image)
-FROM mysql
+FROM mysql:5.7
 
 ## The maintainer name and email
 MAINTAINER Karl Niebuhr <karlbooklover@gmail.com>
